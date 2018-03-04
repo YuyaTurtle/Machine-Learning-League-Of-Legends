@@ -56,6 +56,10 @@ def binarySearch(alist, item):
                 first = midpoint+1
     return found
 
+def AddtoFile(match):
+    f= open("matchHistory.txt","a+")
+    f.write(str(match) + "\n\n")
+
 def getMatches(AccountId, region, APIKEY):
     global Players
     global Matches
@@ -90,6 +94,7 @@ def getPlayers(MatchID, APIKEY):
     APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
+        AddtoFile(data['teams'])
         for players in data['participantIdentities']:
             if binarySearch(Players, players['player']['currentAccountId']) == False:
                 #Players.append(players['player']['currentAccountId'])

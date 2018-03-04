@@ -99,7 +99,7 @@ def getPlayers(MatchID, APIKEY):
     APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
-        AddtoFile(data['teams'])
+        AddtoFile(data)
         for players in data['participantIdentities']:
             if binarySearch(Players, players['player']['currentAccountId']) == False:
                 #Players.append(players['player']['currentAccountId'])

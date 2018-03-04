@@ -1,6 +1,7 @@
 import json
 import urllib2
 import time
+import bisect
 
 def quickSort(alist):
    quickSortHelper(alist,0,len(alist)-1)
@@ -62,7 +63,8 @@ def getMatches(AccountId, region, APIKEY):
     try:
         data = json.load(urllib2.urlopen(APIstring))
         for matches in data['matches']:
-            Matches.append(matches['gameId'])
+            #Matches.append(matches['gameId'])
+			bisect_left(Matches,matches['gameId'])
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code
@@ -75,7 +77,8 @@ def getPlayers(MatchID, APIKEY):
     try:
         data = json.load(urllib2.urlopen(APIstring))
         for players in data['participantIdentities']:
-            Players.append(players['player']['currentAccountId'])
+            #Players.append(players['player']['currentAccountId'])
+			bisect_left(Players,players['player']['currentAccountId'])
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code

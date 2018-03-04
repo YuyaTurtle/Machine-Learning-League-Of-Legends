@@ -16,7 +16,6 @@ def quickSortHelper(alist,first,last):
 
 def partition(alist,first,last):
    pivotvalue = alist[first]
-
    leftmark = first+1
    rightmark = last
 
@@ -39,10 +38,22 @@ def partition(alist,first,last):
    temp = alist[first]
    alist[first] = alist[rightmark]
    alist[rightmark] = temp
-
-
    return rightmark
 
+def binarySearch(alist, item):
+    first = 0
+    last = len(alist)-1
+    found = False
+    while first<=last and not found:
+        midpoint = (first + last)//2
+        if alist[midpoint] == item:
+            found = True
+        else:
+            if item < alist[midpoint]:
+                last = midpoint-1
+            else:
+                first = midpoint+1
+    return found
 
 def getMatches(AccountId, region, APIKEY):
     global Players
@@ -80,6 +91,9 @@ getMatches('244721782','na1', Key)
 print "total matches",
 print len(Matches)
 print Matches
+quickSort(Matches)
+print Matches
+
 #
 # Matches.append('2730022598')
 # getPlayers('2730022598',Key)

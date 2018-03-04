@@ -59,15 +59,24 @@ def binarySearch(alist, item):
 def getMatches(AccountId, region, APIKEY):
     global Players
     global Matches
-    APIstring = 'https://'+region+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+AccountId+'?api_key=' + APIKEY
+    time.sleep(1.2)
+    #print Players
+    APIstring = 'https://'+region+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+str(AccountId)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
+        temp = []
         for matches in data['matches']:
-            if binarySearch(Matches, matches['gameId']) == False:
-                #Matches.append(matches['gameId'])
-                index = bisect.bisect_left(Matches,matches['gameId'])
-                Matches.insert(index,matches['gameId'])
-
+            if len(Matches) <100000:
+                seen = binarySearch(Matches, matches['gameId'])
+                if seen == False:
+                    temp.append(matches['gameId'])
+                    #Matches.append(matches['gameId'])
+                    index = bisect.bisect_left(Matches,matches['gameId'])
+                    Matches.insert(index,matches['gameId'])
+            else:
+                break
+        for unseenmatches in temp:
+            getPlayers(unseenmatches, APIKEY)
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code
@@ -76,7 +85,9 @@ def getMatches(AccountId, region, APIKEY):
 def getPlayers(MatchID, APIKEY):
     global Players
     global Matches
-    APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+MatchID+'?api_key=' + APIKEY
+    time.sleep(1.2)
+    #print Players
+    APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
         for players in data['participantIdentities']:
@@ -95,12 +106,12 @@ Players = []
 Matches = []
 
 Players.append('244721782')
-getMatches('244721782','na1', Key)
+getMatches(244721782,'na1', Key)
 print "total matches",
 print len(Matches)
 print Matches
-quickSort(Matches)
-print Matches
+
+print Players
 
 #
 # Matches.append('2730022598')

@@ -60,7 +60,7 @@ def getMatches(AccountId, region, APIKEY):
     global Players
     global Matches
     time.sleep(1.2)
-    #print Players
+    print "Matches: ",len(Matches)
     APIstring = 'https://'+region+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+str(AccountId)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
@@ -86,7 +86,7 @@ def getPlayers(MatchID, APIKEY):
     global Players
     global Matches
     time.sleep(1.2)
-    #print Players
+    print "Players: ",len(Players)
     APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
@@ -95,6 +95,7 @@ def getPlayers(MatchID, APIKEY):
                 #Players.append(players['player']['currentAccountId'])
                 index = bisect.bisect_left(Players,players['player']['currentAccountId'])
                 Players.insert(index,players['player']['currentAccountId'])
+                getMatches(players['player']['currentAccountId'],'na1', Key)
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code

@@ -61,6 +61,7 @@ def AddtoFile(match):
     f.write(str(match) + "\n\n")
 
 def getMatches(AccountId, region, APIKEY):
+    global depth
     global Players
     global Matches
     time.sleep(1.2)
@@ -87,9 +88,16 @@ def getMatches(AccountId, region, APIKEY):
 
 
 def getPlayers(MatchID, APIKEY):
+    global depth
     global Players
     global Matches
+
+    depth +=1
     time.sleep(1.2)
+    if depth >5:
+        depth -=1
+        return
+
     print "Players: ",len(Players)
     APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
@@ -101,6 +109,7 @@ def getPlayers(MatchID, APIKEY):
                 index = bisect.bisect_left(Players,players['player']['currentAccountId'])
                 Players.insert(index,players['player']['currentAccountId'])
                 getMatches(players['player']['currentAccountId'],'na1', Key)
+        depth -=1
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code
@@ -110,7 +119,7 @@ def getPlayers(MatchID, APIKEY):
 Key='RGAPI-3ae5a333-a70e-4d2e-9cad-0d40910b3821'
 Players = []
 Matches = []
-
+depth = 0
 Players.append('244721782')
 getMatches(244721782,'na1', Key)
 print "total matches",

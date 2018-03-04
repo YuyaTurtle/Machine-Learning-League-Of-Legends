@@ -63,8 +63,11 @@ def getMatches(AccountId, region, APIKEY):
     try:
         data = json.load(urllib2.urlopen(APIstring))
         for matches in data['matches']:
-            #Matches.append(matches['gameId'])
-			bisect_left(Matches,matches['gameId'])
+            if binarySearch(Matches, matches['gameId']) == False:
+                #Matches.append(matches['gameId'])
+                index = bisect.bisect_left(Matches,matches['gameId'])
+                Matches.insert(index,matches['gameId'])
+
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code
@@ -77,8 +80,10 @@ def getPlayers(MatchID, APIKEY):
     try:
         data = json.load(urllib2.urlopen(APIstring))
         for players in data['participantIdentities']:
-            #Players.append(players['player']['currentAccountId'])
-			bisect_left(Players,players['player']['currentAccountId'])
+            if binarySearch(Players, players['player']['currentAccountId']) == False:
+                #Players.append(players['player']['currentAccountId'])
+                index = bisect.bisect_left(Players,players['player']['currentAccountId'])
+                Players.insert(index,players['player']['currentAccountId'])
     except urllib2.HTTPError, e:
         print "Data returned error"
         print e.code

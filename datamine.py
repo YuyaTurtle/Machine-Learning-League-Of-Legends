@@ -55,10 +55,53 @@ def binarySearch(alist, item):
             else:
                 first = midpoint+1
     return found
+def BoolToBit(input):
+    if (str(input).lower == 'true' or 'win'):
+        return '1'
+    else:
+        return '0'
+
 
 def AddtoFile(match):
+    #15 items in teams, 4 left out since it doesnt effect the winning chance
+    inputs = [0] * (16-4)
     f= open("matchHistory.txt","a+")
-    f.write(str(match) + "\n\n")
+    #f.write(str(match) + "\n\n")
+    for teams in match['teams']:
+        for x in teams:
+            if str(x)== 'win':
+                inputs[0]=BoolToBit(str(teams[x]))
+            elif str(x)== 'firstDragon':
+                inputs[1]=BoolToBit(str(teams[x]))
+            elif str(x)== 'firstInhibitor':
+                inputs[2]=BoolToBit(str(teams[x]))
+            elif str(x)== 'firstRiftHerald':
+                inputs[3]=BoolToBit(str(teams[x]))
+            elif str(x)== 'firstBaron':
+                inputs[4]=BoolToBit(str(teams[x]))
+            elif str(x)== 'baronKills':
+                inputs[5]=str(teams[x])
+            elif str(x)== 'riftHeraldKills':
+                inputs[6]=str(teams[x])
+            elif str(x)== 'firstBlood':
+                inputs[7]=BoolToBit(str(teams[x]))
+            elif str(x)== 'firstTower':
+                inputs[8]=BoolToBit(str(teams[x]))
+            elif str(x)== 'inhibitorKills':
+                inputs[9]=str(teams[x])
+            elif str(x)== 'towerKills':
+                inputs[10]=str(teams[x])
+            elif str(x)== 'dragonKills':
+                inputs[11]=str(teams[x])
+
+        for x in range(len(inputs)-1):
+            f.write(inputs[x]+",")
+        f.write(inputs[len(inputs)-1]+"\n")
+
+            #if (str(x)!= 'bans' and str(x)!= 'vilemawKills' and str(x)!= 'dominionVictoryScore' ):
+                #f.write(str(teams[x])+",")
+        #f.write("\n\n")
+
 
 def getMatches(AccountId, region, APIKEY):
     global depth
@@ -114,10 +157,14 @@ def getPlayers(MatchID, APIKEY):
 
 
 
-Key='RGAPI-3ae5a333-a70e-4d2e-9cad-0d40910b3821'
+Key='RGAPI-4cef7cf4-ef61-4587-9f68-901b06221833'
 Players = []
 Matches = []
 depth = 0
+
+fin= open("matchHistory.txt","w")
+fin.close()
+
 Players.append('244721782')
 getMatches(244721782,'na1', Key)
 print "total matches",

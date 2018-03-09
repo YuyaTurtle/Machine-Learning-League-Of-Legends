@@ -1,5 +1,5 @@
 Progress:
-	Match increase and add matches to files (just takes extra time on depth 7)
+  Match increase and add matches to files (just takes extra time on depth 7)
   Each match formatted
   Each match Reorganized 
   Matches added onto file 

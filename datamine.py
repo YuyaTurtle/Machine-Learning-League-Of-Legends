@@ -107,30 +107,37 @@ def getMatches(AccountId, region, APIKEY):
     global depth
     global Players
     global Matches
-    time.sleep(1.2)
-    print "Depth: ", depth
-    print "Matches: ",len(Matches)
-    APIstring = 'https://'+region+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+str(AccountId)+'?api_key=' + APIKEY
-    try:
-        data = json.load(urllib2.urlopen(APIstring))
-        temp = []
-        for matches in data['matches']:
-            if len(Matches) <100000:
-                seen = binarySearch(Matches, matches['gameId'])
-                if seen == False:
-                    temp.append(matches['gameId'])
-                    #Matches.append(matches['gameId'])
-                    index = bisect.bisect_left(Matches,matches['gameId'])
-                    Matches.insert(index,matches['gameId'])
-            else:
-                break
-        for unseenmatches in temp:
-            if depth > 6:
-                break
-            getPlayers(unseenmatches, APIKEY)
-    except urllib2.HTTPError, e:
-        print "Data returned error"
-        print e.code
+    if (len(Matches) <(100000/2)):
+        time.sleep(1.2)
+        print "Depth: ", depth
+        print "Matches: ",len(Matches)
+        APIstring = 'https://'+region+'.api.riotgames.com/lol/match/v3/matchlists/by-account/'+str(AccountId)+'?api_key=' + APIKEY
+        try:
+            data = json.load(urllib2.urlopen(APIstring))
+            temp = []
+            for matches in data['matches']:
+                if len(Matches) <(100000/2):
+                    seen = binarySearch(Matches, matches['gameId'])
+                    if seen == False:
+                        #Write match result to file
+                        APIstringMatch = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(matches['gameId'])+'?api_key=' + APIKEY
+                        time.sleep(1.2)
+                        matchdata = json.load(urllib2.urlopen(APIstringMatch))
+                        AddtoFile(matchdata)
+                        #add matches to total match list
+                        temp.append(matches['gameId'])
+                        index = bisect.bisect_left(Matches,matches['gameId'])
+                        Matches.insert(index,matches['gameId'])
+                        print len(Matches)*2 , "Matches Recorded"
+                else:
+                    break
+            for unseenmatches in temp:
+                if depth > 6:
+                    break
+                getPlayers(unseenmatches, APIKEY)
+        except urllib2.HTTPError, e:
+            print "Data returned error"
+            print e.code
 
 
 def getPlayers(MatchID, APIKEY):
@@ -142,7 +149,7 @@ def getPlayers(MatchID, APIKEY):
     APIstring = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(MatchID)+'?api_key=' + APIKEY
     try:
         data = json.load(urllib2.urlopen(APIstring))
-        AddtoFile(data)
+        #AddtoFile(data)
         for players in data['participantIdentities']:
             if binarySearch(Players, players['player']['currentAccountId']) == False:
                 #Players.append(players['player']['currentAccountId'])

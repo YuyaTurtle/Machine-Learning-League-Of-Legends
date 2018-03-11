@@ -112,8 +112,7 @@ def getMatches(AccountId, region, APIKEY):
     global Players
     global Matches
     totalmatch = 100000/2 
-    rest = totalmatch - 84028/2
-    if (len(Matches) <(rest)):
+    if (len(Matches) <(totalmatch)):
         time.sleep(1.2)
         print "Depth: ", depth
         print "Matches: ",len(Matches)
@@ -175,11 +174,11 @@ Players = []
 Matches = []
 depth = 0
 
-fin= open("matchHistory.txt","w")
-fin.close()
+#fin= open("matchHistory.txt","w")
+#fin.close()
 
-Players.append('244721782')
-getMatches(244721782,'na1', Key)
+Players.append('34951719')
+getMatches(34951719,'na1', Key)
 #Players.append('201714359')
 #getMatches(201714359,'jp1', Key)
 print "total matches",

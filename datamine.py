@@ -55,16 +55,20 @@ def binarySearch(alist, item):
             else:
                 first = midpoint+1
     return found
-def BoolToBit(input):
-    if (str(input).lower == 'true' or 'win'):
-        return '1'
+def BoolToBit(check):
+    if (check == "True"):
+        #return "1"
+        return "1"
+    elif (check == "Win"):
+        return "1"
     else:
-        return '0'
+        #return "0"
+        return "0"
 
 
 def AddtoFile(match):
     #15 items in teams, 4 left out since it doesnt effect the winning chance
-    inputs = [0] * (16-4)
+    inputs = [""] * (16-4)
     f= open("matchHistory.txt","a+")
     #f.write(str(match) + "\n\n")
     for teams in match['teams']:
@@ -95,7 +99,7 @@ def AddtoFile(match):
                 inputs[11]=str(teams[x])
 
         for x in range(len(inputs)-1):
-            f.write(inputs[x]+",")
+            f.write(str(inputs[x])+",")
         f.write(inputs[len(inputs)-1]+"\n")
 
             #if (str(x)!= 'bans' and str(x)!= 'vilemawKills' and str(x)!= 'dominionVictoryScore' ):
@@ -107,7 +111,9 @@ def getMatches(AccountId, region, APIKEY):
     global depth
     global Players
     global Matches
-    if (len(Matches) <(100000/2)):
+    totalmatch = 100000/2 
+    rest = totalmatch - 84028/2
+    if (len(Matches) <(rest)):
         time.sleep(1.2)
         print "Depth: ", depth
         print "Matches: ",len(Matches)
@@ -116,11 +122,11 @@ def getMatches(AccountId, region, APIKEY):
             data = json.load(urllib2.urlopen(APIstring))
             temp = []
             for matches in data['matches']:
-                if len(Matches) <(100000/2):
+                if len(Matches) <(totalmatch):
                     seen = binarySearch(Matches, matches['gameId'])
                     if seen == False:
                         #Write match result to file
-                        APIstringMatch = 'https://na1.api.riotgames.com/lol/match/v3/matches/'+str(matches['gameId'])+'?api_key=' + APIKEY
+                        APIstringMatch = 'https://'+region+'.api.riotgames.com/lol/match/v3/matches/'+str(matches['gameId'])+'?api_key=' + APIKEY
                         time.sleep(1.2)
                         matchdata = json.load(urllib2.urlopen(APIstringMatch))
                         AddtoFile(matchdata)
@@ -136,7 +142,7 @@ def getMatches(AccountId, region, APIKEY):
                     break
                 getPlayers(unseenmatches, APIKEY)
         except urllib2.HTTPError, e:
-            print "Data returned error"
+            print "Match Data returned error"
             print e.code
 
 
@@ -159,12 +165,12 @@ def getPlayers(MatchID, APIKEY):
                 getMatches(players['player']['currentAccountId'],'na1', Key)
                 depth -= 1
     except urllib2.HTTPError, e:
-        print "Data returned error"
+        print "Player Data returned error"
         print e.code
 
 
 
-Key='RGAPI-4cef7cf4-ef61-4587-9f68-901b06221833'
+Key='RGAPI-821ebb73-8920-478f-9da9-4f0f31bb5438'
 Players = []
 Matches = []
 depth = 0
@@ -174,6 +180,8 @@ fin.close()
 
 Players.append('244721782')
 getMatches(244721782,'na1', Key)
+#Players.append('201714359')
+#getMatches(201714359,'jp1', Key)
 print "total matches",
 print len(Matches)
 print Matches

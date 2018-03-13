@@ -169,16 +169,16 @@ def getPlayers(MatchID, APIKEY):
 
 
 
-Key='RGAPI-821ebb73-8920-478f-9da9-4f0f31bb5438'
+Key='RGAPI-91d7ed78-2547-4ca6-8a0e-f31f18a06b11'
 Players = []
 Matches = []
 depth = 0
 
-#fin= open("matchHistory.txt","w")
-#fin.close()
+fin= open("matchHistory.txt","w")
+fin.close()
 
-Players.append('34951719')
-getMatches(34951719,'na1', Key)
+Players.append('244721782')
+getMatches(244721782,'na1', Key)
 #Players.append('201714359')
 #getMatches(201714359,'jp1', Key)
 print "total matches",

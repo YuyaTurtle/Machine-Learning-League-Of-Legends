@@ -65,59 +65,22 @@ def BoolToBit(check):
         #return "0"
         return "0"
 
-
-def AddtoFile(match):
-    #15 items in teams, 4 left out since it doesnt effect the winning chance
-    inputs = [""] * (16-4)
-    f= open("matchHistory.txt","a+")
-    #f.write(str(match) + "\n\n")
-    for teams in match['teams']:
-        for x in teams:
-            if str(x)== 'win':
-                inputs[0]=BoolToBit(str(teams[x]))
-            elif str(x)== 'firstDragon':
-                inputs[1]=BoolToBit(str(teams[x]))
-            elif str(x)== 'firstInhibitor':
-                inputs[2]=BoolToBit(str(teams[x]))
-            elif str(x)== 'firstRiftHerald':
-                inputs[3]=BoolToBit(str(teams[x]))
-            elif str(x)== 'firstBaron':
-                inputs[4]=BoolToBit(str(teams[x]))
-            elif str(x)== 'baronKills':
-                inputs[5]=str(teams[x])
-            elif str(x)== 'riftHeraldKills':
-                inputs[6]=str(teams[x])
-            elif str(x)== 'firstBlood':
-                inputs[7]=BoolToBit(str(teams[x]))
-            elif str(x)== 'firstTower':
-                inputs[8]=BoolToBit(str(teams[x]))
-            elif str(x)== 'inhibitorKills':
-                inputs[9]=str(teams[x])
-            elif str(x)== 'towerKills':
-                inputs[10]=str(teams[x])
-            elif str(x)== 'dragonKills':
-                inputs[11]=str(teams[x])
-
-        for x in range(len(inputs)-1):
-            f.write(str(inputs[x])+",")
-        f.write(inputs[len(inputs)-1]+"\n")
-
-            #if (str(x)!= 'bans' and str(x)!= 'vilemawKills' and str(x)!= 'dominionVictoryScore' ):
-                #f.write(str(teams[x])+",")
-        #f.write("\n\n")
-
-
 def getChamps(APIKEY):
     count = 0
     time.sleep(1.2)
     APIstring = 'https://na1.api.riotgames.com/lol/static-data/v3/champions?locale=en_US&dataById=true&api_key=' + APIKEY
     try:
+        f=open("champs.txt","w")
         data = json.load(urllib2.urlopen(APIstring))
         #AddtoFile(data)
-        for champs in data['data']:
+        for champs,info in data['data']:
+            print champs,	
+            print info['key']
+            #f.write(str(champs) + "," + str(champs['key']) + "\n")
             count+=1
         print "Total champ count = ",
         print count
+        f.close()
     except urllib2.HTTPError, e:
         print "Champ Data returned error"
         print e.code
@@ -126,8 +89,8 @@ def getChamps(APIKEY):
 
 Key='RGAPI-821ebb73-8920-478f-9da9-4f0f31bb5438'
 
-#fin= open("matchHistory.txt","w")
-#fin.close()
+fin= open("champs.txt","w")
+fin.close()
 
 getChamps(Key)
 

@@ -112,8 +112,7 @@ def getMatches(AccountId, region, APIKEY):
     global Players
     global Matches
     totalmatch = 100000/2 
-    rest = totalmatch - 84028/2
-    if (len(Matches) <(rest)):
+    if (len(Matches) <(totalmatch)):
         time.sleep(1.2)
         print "Depth: ", depth
         print "Matches: ",len(Matches)
@@ -170,7 +169,7 @@ def getPlayers(MatchID, APIKEY):
 
 
 
-Key='RGAPI-821ebb73-8920-478f-9da9-4f0f31bb5438'
+Key='RGAPI-91d7ed78-2547-4ca6-8a0e-f31f18a06b11'
 Players = []
 Matches = []
 depth = 0

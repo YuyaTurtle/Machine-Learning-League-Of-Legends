@@ -4,7 +4,7 @@ from numpy import *
 
 
 # define constants used like flags
-NUMBER_OF_INSTANCES = 3000
+NUMBER_OF_INSTANCES = 100000
 
 USING_FIRST_DRAGON = 1
 USING_FIRST_INHIBITOR = 1
@@ -33,7 +33,7 @@ NUMBER_OF_FEATURES = USING_FIRST_DRAGON + USING_FIRST_INHIBITOR + USING_FIRST_RI
 #
 
 # open input file and output file
-data = open('testingData.txt','r')
+data = open('matchHistory.txt','r')
 results = open('results.txt','w+')
 
 # initialize matrices
@@ -49,19 +49,54 @@ feature_string = ''
 for i in range(NUMBER_OF_TRAINING_INSTANCES):
 	line = data.readline()
 	split_line = line.split(',')
-
-	win 				= int(split_line[0])
-	first_dragon 		= int(split_line[1])
-	first_inhibitor 	= int(split_line[2])
-	first_rift_herald 	= int(split_line[3])
-	first_baron 		= int(split_line[4])
-	baron_kills 		= int(split_line[5])
-	rift_herald_kills 	= int(split_line[6])
-	first_blood 		= int(split_line[7])
-	first_tower 		= int(split_line[8])
-	inhibitor_kills		= int(split_line[9])
-	tower_kills 		= int(split_line[10])
-	dragon_kills 		= int(split_line[11])
+	if split_line[0]!= '':
+		win 				= int(split_line[0])
+	else:
+		win = 0
+	if split_line[1]!= '':
+		first_dragon 		= int(split_line[1])
+	else:
+		first_dragon = 0
+	if split_line[2]!= '':
+		first_inhibitor 	= int(split_line[2])
+	else:
+		first_inhibitor = 0
+	if split_line[3]!= '':
+		first_rift_herald 	= int(split_line[3])
+	else:
+		first_rift_herald = 0
+	if split_line[4]!= '':
+		first_baron 		= int(split_line[4])
+	else:
+		first_baron = 0
+	if split_line[5]!= '':
+		baron_kills 		= int(split_line[5])
+	else:
+		baron_kills = 0
+	if split_line[6]!= '':
+		rift_herald_kills 	= int(split_line[6])
+	else:
+		rift_herald_kills
+	if split_line[7]!= '':
+		first_blood 		= int(split_line[7])
+	else:
+		first_blood = 0
+	if split_line[8]!= '':
+		first_tower 		= int(split_line[8])
+	else:
+		first_tower = 0
+	if split_line[9]!= '':
+		inhibitor_kills		= int(split_line[9])
+	else:
+		inhibitor_kills = 0
+	if split_line[10]!= '':
+		tower_kills 		= int(split_line[10])
+	else:
+		tower_kills = 0
+	if split_line[11]!= '':
+		dragon_kills 		= int(split_line[11])
+	else:
+		dragon_kills = 0
 	
 	y_train[i] = win*100
 
@@ -127,18 +162,54 @@ for i in range(NUMBER_OF_TEST_INSTANCES):
 	line = data.readline()
 	split_line = line.split(',')
 
-	win 				= int(split_line[0])
-	first_dragon 		= int(split_line[1])
-	first_inhibitor 	= int(split_line[2])
-	first_rift_herald 	= int(split_line[3])
-	first_baron 		= int(split_line[4])
-	baron_kills 		= int(split_line[5])
-	rift_herald_kills 	= int(split_line[6])
-	first_blood 		= int(split_line[7])
-	first_tower 		= int(split_line[8])
-	inhibitor_kills		= int(split_line[9])
-	tower_kills 		= int(split_line[10])
-	dragon_kills 		= int(split_line[11])
+	if split_line[0]!= '':
+		win 				= int(split_line[0])
+	else:
+		win = 0
+	if split_line[1]!= '':
+		first_dragon 		= int(split_line[1])
+	else:
+		first_dragon =0
+	if split_line[2]!= '':
+		first_inhibitor 	= int(split_line[2])
+	else:
+		first_inhibitor = 0
+	if split_line[3]!= '':
+		first_rift_herald 	= int(split_line[3])
+	else:
+		first_rift_herald = 0
+	if split_line[4]!= '':
+		first_baron 		= int(split_line[4])
+	else:
+		first_baron = 0
+	if split_line[5]!= '':
+		baron_kills 		= int(split_line[5])
+	else:
+		baron_kills = 0
+	if split_line[6]!= '':
+		rift_herald_kills 	= int(split_line[6])
+	else:
+		rift_herald_kills = 0
+	if split_line[7]!= '':
+		first_blood 		= int(split_line[7])
+	else:
+		first_blood = 0
+	if split_line[8]!= '':
+		first_tower 		= int(split_line[8])
+	else:
+		first_tower = 0
+	if split_line[9]!= '':
+		inhibitor_kills		= int(split_line[9])
+	else:
+		inhibitor_kills = 0
+	if split_line[10]!= '':
+		tower_kills 		= int(split_line[10])
+	else:
+		tower_kills = 0
+	if split_line[11]!= '':
+		dragon_kills 		= int(split_line[11])
+	else:
+		dragon_kills = 0
 	
 	y_test[i] = win*100
 
